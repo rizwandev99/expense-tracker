@@ -2,17 +2,21 @@ import "./App.css";
 import { Fragment } from "react";
 import Layout from "./components/layout/Layout";
 import AuthForm from "./components/auth/AuthForm";
-import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Welcome from "./components/welcome/Welcome";
 
 function App() {
   return (
-    <Layout>
-      <Switch>
-        <Route path="/" exact>
-          <AuthForm />
-        </Route>
-      </Switch>
-    </Layout>
+    <>
+      <Layout>
+        <Router>
+          <Routes>
+            <Route path="/" element={<AuthForm />} />
+            <Route path="/welcome" element={<Welcome />} />
+          </Routes>
+        </Router>
+      </Layout>
+    </>
   );
 }
 

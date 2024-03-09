@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import classes from "./AuthForm.module.css";
+import { useNavigate } from "react-router-dom";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -7,6 +8,8 @@ const AuthForm = () => {
   const inputEmail = useRef();
   const inputPassword = useRef();
   const inputConfirmPassword = useRef();
+
+  const history = useNavigate();
 
   const switchAuthHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -45,19 +48,24 @@ const AuthForm = () => {
       },
     })
       .then((res) => {
+        console.log(res);
+        // const data = res.json();
+        // console.log("Hi", data);
         if (res.ok) {
+          history("/welcome");
           return res.json();
         } else {
           throw new Error("Some Error in api");
         }
       })
       .then((data) => {
-        console.log("SUCCESSSS");
+        console.log("SUCCESSSS", data);
       })
       .catch((err) => {
         alert(err);
       });
   };
+  //
   return (
     <section className={classes.section}>
       <form onSubmit={submitHandler}>
