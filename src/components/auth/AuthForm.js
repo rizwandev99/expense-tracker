@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import classes from "./AuthForm.module.css";
 import { useNavigate } from "react-router-dom";
+import authContext from "../../store/AuthContext";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(false);
@@ -8,6 +9,8 @@ const AuthForm = () => {
   const inputEmail = useRef();
   const inputPassword = useRef();
   const inputConfirmPassword = useRef();
+
+  const ctx = useContext(authContext);
 
   const history = useNavigate();
 
@@ -20,12 +23,12 @@ const AuthForm = () => {
 
     const email = inputEmail.current.value;
     const password = inputPassword.current.value;
-    const confirmPassword = inputConfirmPassword.current.value;
+    // const confirmPassword = inputConfirmPassword.current.value;
 
-    if (password !== confirmPassword) {
-      alert("Password & Confirm Password are not same");
-      return;
-    }
+    // if (password !== confirmPassword) {
+    //   alert("Password & Confirm Password are not same");
+    //   return;
+    // }
 
     let url;
     if (isLogin) {
@@ -60,6 +63,8 @@ const AuthForm = () => {
       })
       .then((data) => {
         console.log("SUCCESSSS", data);
+        ctx.login(data.idToken);
+        console.log("token", ctx.token);
       })
       .catch((err) => {
         alert(err);
@@ -84,16 +89,19 @@ const AuthForm = () => {
             minLength={6}
           />
         </div>
-        <div className={classes.formcontrol}>
-          <label htmlFor="cpasswrod">Confirm password :</label>
-          <input
-            type="password"
-            id="cpassword"
-            required
-            ref={inputConfirmPassword}
-            minLength={6}
-          />
-        </div>
+        {!isLogin && (
+          <div className={classes.formcontrol}>
+            <label htmlFor="cpasswrod">Confirm password :</label>
+            <input
+              type="password"
+              id="cpassword"
+              required
+              ref={inputConfirmPassword}
+              minLength={6}
+            />
+          </div>
+        )}
+
         <button type="submit" className={classes.formButton}>
           {isLogin ? "Login" : "Signup"}
         </button>

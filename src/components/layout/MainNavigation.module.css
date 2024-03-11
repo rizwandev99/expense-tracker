@@ -25,3 +25,7 @@
 .navbar h2 {
   color: white;
 }
+
+.activeLink {
+  color: red;
+}

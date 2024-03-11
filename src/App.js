@@ -4,18 +4,23 @@ import Layout from "./components/layout/Layout";
 import AuthForm from "./components/auth/AuthForm";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Welcome from "./components/welcome/Welcome";
+import Profile from "./components/profile/Profile";
+import { AuthContextProvider } from "./store/AuthContext";
 
 function App() {
   return (
     <>
-      <Layout>
+      <AuthContextProvider>
         <Router>
-          <Routes>
-            <Route path="/" element={<AuthForm />} />
-            <Route path="/welcome" element={<Welcome />} />
-          </Routes>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<AuthForm />} />
+              <Route path="/welcome" element={<Welcome />} />
+              <Route path="/profile" element={<Profile />} />
+            </Routes>
+          </Layout>
         </Router>
-      </Layout>
+      </AuthContextProvider>
     </>
   );
 }
