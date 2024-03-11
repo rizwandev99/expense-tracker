@@ -7,7 +7,7 @@ const AuthContext = createContext({
   logOut: () => {},
 });
 export const AuthContextProvider = (props) => {
-  const initialToken = localStorage.getItem("token" || "hi");
+  const initialToken = localStorage.getItem("token" || null);
   const [token, setToken] = useState(initialToken);
 
   const loginHandler = (id) => {

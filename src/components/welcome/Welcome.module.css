@@ -4,9 +4,13 @@
   align-items: center;
   padding: 1rem;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-  height: 15vh;
+  height: 5vh;
 }
 
 .h1 {
-  margin: 2rem;
+  margin: 1rem;
+}
+
+form {
+  margin-top: 1rem;
 }
