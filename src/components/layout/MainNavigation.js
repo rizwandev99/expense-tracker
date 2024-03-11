@@ -7,7 +7,10 @@ const MainNavigation = () => {
     <nav className={classes.navbar}>
       <h2>md-expense-tracker</h2>
       <ul>
-        <NavLink to="/" activeClassName={classes.activeLink}>
+        <NavLink
+          to="/"
+          className={({ isActive }) => (isActive ? [classes.isActive] : "")}
+        >
           Home
         </NavLink>
         <NavLink>Products</NavLink>

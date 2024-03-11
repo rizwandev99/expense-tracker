@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createContext } from "react";
 
 const AuthContext = createContext({
   token: "",
 });
 export const AuthContextProvider = (props) => {
-  const [token, setToken] = useState("hi");
+  const initialToken = localStorage.getItem("token" || "hi");
+  const [token, setToken] = useState(initialToken);
 
   const loginHandler = (id) => {
     setToken(() => id);
+    localStorage.setItem("token", id);
   };
   const contextValue = {
     token: token,
