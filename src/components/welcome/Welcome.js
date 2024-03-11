@@ -6,35 +6,6 @@ import AuthContext from "../../store/AuthContext";
 const Welcome = () => {
   const ctx = useContext(AuthContext);
 
-  // const verifyEmail = () => {
-  //   fetch(
-  //     "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyB-tgeIQueud130Enb5tNTJXT2bO6NI8Ts",
-  //     {
-  //       method: "POST",
-  //       BODY: JSON.stringify({
-  //         requestType: "VERIFY_EMAIL",
-  //         idToken: ctx.token,
-  //       }),
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //     }
-  //   )
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         return res.json();
-  //       } else {
-  //         throw new Error("Email verify failed");
-  //       }
-  //     })
-  //     .then((res) => {
-  //       console.log("Verify email data", res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   const verifyEmail = () => {
     fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyB-tgeIQueud130Enb5tNTJXT2bO6NI8Ts",
