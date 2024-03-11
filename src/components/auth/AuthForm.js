@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from "react";
 import classes from "./AuthForm.module.css";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import authContext from "../../store/AuthContext";
 
 const AuthForm = () => {
@@ -105,6 +105,11 @@ const AuthForm = () => {
         <button type="submit" className={classes.formButton}>
           {isLogin ? "Login" : "Signup"}
         </button>
+        {isLogin && (
+          <div className={classes.forgotPassword}>
+            <NavLink to="/forgot-password">forgot password</NavLink>
+          </div>
+        )}
       </form>
       <div className={classes.already}>
         {isLogin ? "Create new Account" : "Login with existing account"}

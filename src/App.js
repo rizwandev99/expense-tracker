@@ -7,6 +7,7 @@ import Welcome from "./components/welcome/Welcome";
 import Profile from "./components/profile/Profile";
 import { AuthContextProvider } from "./store/AuthContext";
 import VerifyEmail from "./components/verify/VerifyEmail";
+import ForgotPassword from "./components/forgotPassword/ForgotPassword";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path="/welcome" element={<Welcome />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/email" element={<VerifyEmail />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
             </Routes>
           </Layout>
         </Router>
