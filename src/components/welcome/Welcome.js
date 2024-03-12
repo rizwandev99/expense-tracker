@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import classes from "./Welcome.module.css";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../store/AuthContext";
@@ -16,6 +10,7 @@ const Welcome = () => {
   const [money, setMoney] = useState("");
   const [description, setDescription] = useState("");
   const [data, setData] = useState();
+  const [api, setApi] = useState(true);
 
   const moneyInputRef = useRef();
   const descriptionInputRef = useRef();
@@ -26,6 +21,9 @@ const Welcome = () => {
   //   expCategory = event.target.value;
   // };
 
+  const changedApi = () => {
+    setApi((api) => !api);
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -33,25 +31,25 @@ const Welcome = () => {
     const descriptionRef = descriptionInputRef.current.value;
     const categoryRef = categoryInputRef.current.value;
 
-    await setMoney(moneyRef);
-    await setDescription(descriptionRef);
-    await setCategory(categoryRef);
+    setMoney(moneyRef);
+    setDescription(descriptionRef);
+    setCategory(categoryRef);
 
     console.log("Hi", category, money, description);
 
-    setData((prevData) => {
-      var randomKey = Math.random().toString(36).substring(2);
+    // setData((prevData) => {
+    //   var randomKey = Math.random().toString(36).substring(2);
 
-      let item = {
-        ...prevData,
-        [randomKey]: {
-          money: money,
-          description: description,
-          category: category,
-        },
-      };
-      return item;
-    });
+    //   let item = {
+    //     ...prevData,
+    //     [randomKey]: {
+    //       money: money,
+    //       description: description,
+    //       category: category,
+    //     },
+    //   };
+    //   return item;
+    // });
 
     fetch(
       "https://expense-tracker-d62f0-default-rtdb.firebaseio.com/expense.json",
@@ -80,11 +78,33 @@ const Welcome = () => {
       .catch((err) => {
         console.log(err);
       });
+
+    changedApi();
   };
 
   useEffect(() => {
     fetch(
-      "https://expense-tracker-d62f0-default-rtdb.firebaseio.com/expense/.json"
+      "https://expense-tracker-d62f0-default-rtdb.firebaseio.com/expense.json"
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Email verify failed");
+        }
+      })
+      .then((res) => {
+        console.log(" Get Expense successfully ", res);
+        setData(() => res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [api]);
+
+  useEffect(() => {
+    fetch(
+      "https://expense-tracker-d62f0-default-rtdb.firebaseio.com/expense.json"
     )
       .then((res) => {
         if (res.ok) {
@@ -129,6 +149,33 @@ const Welcome = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const deleteItem = (key) => {
+    fetch(
+      `https://expense-tracker-d62f0-default-rtdb.firebaseio.com/expense/${key}.json`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("DELETE OPN failed");
+        }
+      })
+      .then((res) => {
+        console.log("Delete successfully", res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    changedApi();
   };
 
   return (
@@ -181,9 +228,14 @@ const Welcome = () => {
             const item = data[key];
             return (
               <div key={key}>
+                <h3>Title :{key}</h3>
                 <h4>Money : {item.money}</h4>
                 <h4>Description : {item.description}</h4>
                 <h4>Category : {item.category}</h4>
+                <button onClick={() => deleteItem(key)}>--Delete--</button>
+                {/* <button onClick={() => editItem(key)}>--Edit--</button> */}
+                <br />
+                <br />
               </div>
             );
           })}
